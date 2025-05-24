@@ -8,25 +8,50 @@ const colorPicker = document.getElementById('colorPicker');
 let currentColor = '#39ff14';
 
 // SVG shapes
-const shapes = {
-    heart: `<svg viewBox="0 0 100 100" width="180" height="180"><path d="M50 80 L20 50 A20 20 0 1 1 50 30 A20 20 0 1 1 80 50 Z" fill="currentColor" stroke="white" stroke-width="4"/></svg>`,
-    star: `<svg viewBox="0 0 100 100" width="180" height="180"><polygon points="50,10 61,39 92,39 66,59 76,89 50,70 24,89 34,59 8,39 39,39" fill="currentColor" stroke="white" stroke-width="4"/></svg>`,
-    bow: `<svg viewBox="0 0 100 100" width="180" height="180"><ellipse cx="30" cy="50" rx="24" ry="14" fill="currentColor" stroke="white" stroke-width="4"/><ellipse cx="70" cy="50" rx="24" ry="14" fill="currentColor" stroke="white" stroke-width="4"/><circle cx="50" cy="50" r="12" fill="currentColor" stroke="white" stroke-width="4"/></svg>`,
-    flower: `<svg viewBox="0 0 100 100" width="180" height="180"><circle cx="50" cy="50" r="16" fill="currentColor" stroke="white" stroke-width="4"/><ellipse cx="50" cy="30" rx="12" ry="24" fill="currentColor" stroke="white" stroke-width="4"/><ellipse cx="50" cy="70" rx="12" ry="24" fill="currentColor" stroke="white" stroke-width="4"/><ellipse cx="30" cy="50" rx="24" ry="12" fill="currentColor" stroke="white" stroke-width="4"/><ellipse cx="70" cy="50" rx="24" ry="12" fill="currentColor" stroke="white" stroke-width="4"/></svg>`
+const shapeSVGFiles = {
+    heart: 'ic_heart.svg',
+    star: 'ic_star.svg',
+    bow: 'ic_butterfly.svg',
+    leaf: 'ic_leaf.svg',
+    love: 'ic_love.svg',
+    peace: 'ic_peace.svg',
+    batman: 'ic_batman.svg'
 };
 let currentShape = 'heart';
 
 function setShape(shape) {
     currentShape = shape;
-    shapeDisplay.innerHTML = shapes[shape];
-    shapeDisplay.querySelector('svg').style.color = currentColor;
+    fetch(shapeSVGFiles[shape])
+        .then(res => res.text())
+        .then(svg => {
+            shapeDisplay.innerHTML = svg;
+            const svgEl = shapeDisplay.querySelector('svg');
+            if (svgEl) {
+                svgEl.style.width = '180px';
+                svgEl.style.height = '180px';
+                svgEl.style.color = currentColor;
+                // Set fill to currentColor for all relevant SVG elements
+                const elements = svgEl.querySelectorAll('path, polygon, ellipse, circle, rect, g, use');
+                elements.forEach(e => {
+                    e.setAttribute('fill', 'currentColor');
+                    e.setAttribute('stroke', 'none');
+                });
+            }
+        });
 }
 
 // Color picker event
 colorPicker.addEventListener('input', (e) => {
     currentColor = e.target.value;
     const svg = shapeDisplay.querySelector('svg');
-    if (svg) svg.style.color = currentColor;
+    if (svg) {
+        svg.style.color = currentColor;
+        const elements = svg.querySelectorAll('path, polygon, ellipse, circle, rect, g, use');
+        elements.forEach(el => {
+            el.setAttribute('fill', 'currentColor');
+            el.setAttribute('stroke', 'none');
+        });
+    }
 });
 
 // Camera access
