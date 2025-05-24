@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PupiLove Web - Selfie Camera</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Camera View (top right, rounded, white border) -->
+        <div class="camera-view">
+            <video id="camera" autoplay playsinline></video>
+        </div>
+
+        <!-- Neon Shape Display (center) -->
+        <div class="shape-display" id="shapeDisplay">
+            <!-- Shape SVG will be injected here -->
+        </div>
+
+        <!-- Shape Selector Sidebar (vertical, right side) -->
+        <div class="shape-sidebar">
+            <button class="shape-btn" data-shape="heart" title="Heart">❤️</button>
+            <button class="shape-btn" data-shape="star" title="Star">⭐</button>
+            <button class="shape-btn" data-shape="bow" title="Bow">🎀</button>
+            <button class="shape-btn" data-shape="flower" title="Flower">🌸</button>
+            <!-- Add more shapes as needed -->
+        </div>
+
+        <!-- Capture Button (bottom center) -->
+        <button class="capture-btn" id="captureBtn" title="Capture Selfie">
+            <span class="camera-icon">📸</span>
+        </button>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
