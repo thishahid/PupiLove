@@ -45,8 +45,8 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 3;
-    width: 200px;
-    height: 200px;
+    width: 280px;
+    height: 280px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -64,6 +64,7 @@ body {
     padding: 0;
     box-sizing: border-box;
     transition: color 0.5s;
+    touch-action: none;
 }
 
 /* Shape Selector Sidebar */
@@ -211,41 +212,50 @@ body {
 
 /* Responsive Design */
 @media (max-width: 700px) {
+    .app-container {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        padding: 0;
+    }
     .camera-view {
-        width: 120px;
-        height: 120px;
-        top: 16px;
-        right: 16px;
+        width: 100px;
+        height: 100px;
+        top: 12px;
+        right: 12px;
+    }
+    .shape-display {
+        width: 180px;
+        height: 180px;
+        top: 38%;
+    }
+    .color-picker-container {
+        left: 4px;
+        padding: 4px 1px;
+    }
+    .color-picker {
+        width: 24px;
+        height: 100px;
     }
     .shape-sidebar {
         right: 0;
-        padding: 8px 2px;
-        gap: 10px;
+        padding: 4px 1px;
+        gap: 8px;
     }
     .shape-btn {
         width: 36px;
         height: 36px;
         font-size: 1.2rem;
     }
-    .shape-display {
-        width: 120px;
-        height: 120px;
-    }
     .capture-btn {
-        width: 60px;
-        height: 60px;
-        bottom: 24px;
+        width: 54px;
+        height: 54px;
+        bottom: 12px;
     }
-    .color-picker-container {
-        left: 8px;
-        padding: 8px 2px;
-    }
-    .color-picker {
-        width: 24px;
-        height: 100px;
-    }
-    .shape-toggle {
-        width: 32px;
-        height: 44px;
-    }
+}
+
+/* Make buttons and inputs more touch-friendly */
+.shape-btn, .capture-btn, .shape-toggle {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
