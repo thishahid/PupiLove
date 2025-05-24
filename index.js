@@ -5,6 +5,7 @@ const shapeDisplay = document.getElementById('shapeDisplay');
 const shapeBtns = document.querySelectorAll('.shape-btn');
 const captureBtn = document.getElementById('captureBtn');
 const colorPicker = document.getElementById('colorPicker');
+const shapeSizeSlider = document.getElementById('shapeSizeSlider');
 let currentColor = '#39ff14';
 
 // SVG shapes
@@ -119,6 +120,20 @@ const appContainer = document.querySelector('.app-container');
 
 focusBtn.addEventListener('click', () => {
     appContainer.classList.toggle('focus-mode');
+});
+
+// Shape size logic
+function updateShapeSize(sizePercent) {
+    // Map slider value (20-100) to vw/vh (20vw/vh to 100vw/vh)
+    const size = `${sizePercent}vw`;
+    shapeDisplay.style.setProperty('--shape-size', size);
+}
+
+// Initialize shape size
+updateShapeSize(shapeSizeSlider.value);
+
+shapeSizeSlider.addEventListener('input', (e) => {
+    updateShapeSize(e.target.value);
 });
 
 // Initialize
