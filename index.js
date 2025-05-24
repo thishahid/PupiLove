@@ -92,6 +92,21 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+// Shape sidebar toggle
+const shapeSidebar = document.getElementById('shapeSidebar');
+const shapeToggle = document.getElementById('shapeToggle');
+const arrowIcon = shapeToggle.querySelector('.arrow-icon');
+
+shapeToggle.addEventListener('click', () => {
+    shapeSidebar.classList.toggle('open');
+    // Optionally rotate the arrow
+    if (shapeSidebar.classList.contains('open')) {
+        arrowIcon.style.transform = 'rotate(180deg)';
+    } else {
+        arrowIcon.style.transform = 'rotate(0deg)';
+    }
+});
+
 // Initialize
 window.addEventListener('DOMContentLoaded', () => {
     setShape(currentShape);
