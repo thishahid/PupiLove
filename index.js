@@ -113,6 +113,14 @@ shapeToggle.addEventListener('click', () => {
     }
 });
 
+// Focus mode toggle
+const focusBtn = document.getElementById('focusBtn');
+const appContainer = document.querySelector('.app-container');
+
+focusBtn.addEventListener('click', () => {
+    appContainer.classList.toggle('focus-mode');
+});
+
 // Initialize
 window.addEventListener('DOMContentLoaded', () => {
     setShape(currentShape);

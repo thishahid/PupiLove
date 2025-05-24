@@ -1,34 +1,41 @@
 body {
     margin: 0;
     padding: 0;
-    background: #000; /* Set background to black */
+    background: #000;
     font-family: 'Segoe UI', Arial, sans-serif;
     min-height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .app-container {
     position: relative;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
+    padding: env(safe-area-inset-top, 16px) env(safe-area-inset-right, 16px) env(safe-area-inset-bottom, 16px) env(safe-area-inset-left, 16px);
 }
 
 /* Camera View */
 .camera-view {
-    position: absolute;
-    top: 32px;
-    right: 32px;
-    width: 180px;
-    height: 180px;
+    position: fixed;
+    top: max(16px, env(safe-area-inset-top, 8px));
+    right: max(16px, env(safe-area-inset-right, 8px));
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     border: 3px solid #fff;
     overflow: hidden;
     box-shadow: 0 0 24px 2px #fff3, 0 2px 16px #000a;
     background: #222;
-    z-index: 2;
+    z-index: 10;
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 30vw;
+    max-height: 30vw;
 }
 .camera-view video {
     width: 100%;
@@ -40,20 +47,21 @@ body {
 
 /* Neon Shape Display */
 .shape-display {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
     z-index: 3;
-    width: 280px;
-    height: 280px;
+    width: min(80vw, 320px);
+    height: min(80vw, 320px);
+    min-width: 120px;
+    min-height: 120px;
+    max-width: 95vw;
+    max-height: 95vw;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 auto;
     filter: drop-shadow(0 0 16px #39ff14) drop-shadow(0 0 32px #ff00ea);
     transition: filter 0.3s;
     padding: 0;
-    margin: 0;
 }
 .shape-display svg {
     width: 100%;
@@ -67,16 +75,46 @@ body {
     touch-action: none;
 }
 
+/* Color Picker */
+.color-picker-container {
+    position: fixed;
+    left: max(8px, env(safe-area-inset-left, 4px));
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 12;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #181a20cc;
+    border-radius: 18px;
+    padding: 8px 4px;
+    box-shadow: 0 0 12px #0006;
+}
+.color-picker {
+    writing-mode: bt-lr; /* vertical orientation for some browsers */
+    -webkit-appearance: none;
+    appearance: none;
+    width: 36px;
+    height: 180px;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    cursor: pointer;
+    box-shadow: 0 0 8px #fff2;
+    margin: 0;
+    outline: none;
+}
+
 /* Shape Selector Sidebar */
 .shape-sidebar {
-    position: absolute;
+    position: fixed;
     top: 50%;
-    right: 0;
+    right: max(8px, env(safe-area-inset-right, 4px));
     transform: translateY(-50%) translateX(100%);
     display: flex;
     flex-direction: column;
     gap: 18px;
-    z-index: 4;
+    z-index: 15;
     background: rgba(24,26,32,0.95);
     border-radius: 18px 0 0 18px;
     padding: 16px 8px;
@@ -84,6 +122,8 @@ body {
     transition: transform 0.3s cubic-bezier(.4,2,.6,1), opacity 0.3s;
     opacity: 0;
     pointer-events: none;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 .shape-sidebar.open {
     transform: translateY(-50%) translateX(0);
@@ -109,83 +149,13 @@ body {
     color: #39ff14;
 }
 
-/* Capture Button */
-.capture-btn {
-    position: absolute;
-    left: 50%;
-    bottom: 48px;
-    transform: translateX(-50%);
-    background: linear-gradient(90deg, #39ff14 0%, #ff00ea 100%);
-    border: none;
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    box-shadow: 0 0 24px 4px #ff00ea88, 0 2px 16px #000a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: box-shadow 0.2s, transform 0.1s;
-    z-index: 5;
-}
-.capture-btn:active {
-    transform: translateX(-50%) scale(0.95);
-    box-shadow: 0 0 12px 2px #39ff14aa;
-}
-.camera-icon {
-    font-size: 2.2rem;
-    color: #fff;
-    text-shadow: 0 0 8px #fff, 0 0 16px #ff00ea;
-}
-
-/* Color Picker */
-.color-picker-container {
-    position: absolute;
-    top: 50%;
-    left: 32px;
-    transform: translateY(-50%);
-    z-index: 4;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 18px;
-    padding: 18px 8px;
-    box-shadow: 0 0 12px #0006;
-}
-.color-picker {
-    writing-mode: bt-lr; /* vertical orientation for some browsers */
-    -webkit-appearance: none;
-    appearance: none;
-    width: 36px;
-    height: 180px;
-    border: none;
-    border-radius: 12px;
-    background: transparent;
-    cursor: pointer;
-    box-shadow: 0 0 8px #fff2;
-    margin: 0;
-    outline: none;
-}
-.color-picker::-webkit-color-swatch-wrapper {
-    padding: 0;
-    border-radius: 12px;
-}
-.color-picker::-webkit-color-swatch {
-    border: 2px solid #fff;
-    border-radius: 12px;
-}
-.color-picker::-moz-color-swatch {
-    border: 2px solid #fff;
-    border-radius: 12px;
-}
-
 /* Shape Toggle Button */
 .shape-toggle {
-    position: absolute;
+    position: fixed;
     top: 50%;
-    right: 0;
+    right: max(8px, env(safe-area-inset-right, 4px));
     transform: translateY(-50%);
-    z-index: 5;
+    z-index: 16;
     background: #181a20;
     border: none;
     border-radius: 12px 0 0 12px;
@@ -210,27 +180,95 @@ body {
     transform: rotate(180deg);
 }
 
+/* Capture Button */
+.capture-btn {
+    position: fixed;
+    left: 50%;
+    bottom: max(24px, env(safe-area-inset-bottom, 12px));
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, #39ff14 0%, #ff00ea 100%);
+    border: none;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    box-shadow: 0 0 24px 4px #ff00ea88, 0 2px 16px #000a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.1s;
+    z-index: 20;
+    min-width: 48px;
+    min-height: 48px;
+    max-width: 20vw;
+    max-height: 20vw;
+}
+.capture-btn:active {
+    transform: translateX(-50%) scale(0.95);
+    box-shadow: 0 0 12px 2px #39ff14aa;
+}
+.camera-icon {
+    font-size: 2.2rem;
+    color: #fff;
+    text-shadow: 0 0 8px #fff, 0 0 16px #ff00ea;
+}
+
+/* Focus Mode Button */
+.focus-btn {
+    position: fixed;
+    top: max(24px, env(safe-area-inset-top, 12px));
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 30;
+    background: #181a20;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 0 8px #0008;
+    transition: background 0.2s;
+}
+.focus-btn:hover, .focus-btn:focus {
+    background: #222;
+}
+.focus-icon {
+    font-size: 1.7rem;
+    color: #39ff14;
+}
+
+/* Focus mode: hide all except camera, shape, and capture button */
+.focus-mode .color-picker-container,
+.focus-mode .shape-sidebar,
+.focus-mode .shape-toggle {
+    display: none !important;
+}
+
 /* Responsive Design */
 @media (max-width: 700px) {
-    .app-container {
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: stretch;
-        padding: 0;
+    .shape-display {
+        width: min(90vw, 180px);
+        height: min(90vw, 180px);
+        min-width: 80px;
+        min-height: 80px;
+        max-width: 95vw;
+        max-height: 95vw;
     }
     .camera-view {
-        width: 100px;
-        height: 100px;
-        top: 12px;
-        right: 12px;
-    }
-    .shape-display {
-        width: 180px;
-        height: 180px;
-        top: 38%;
+        width: 60px;
+        height: 60px;
+        min-width: 40px;
+        min-height: 40px;
+        max-width: 24vw;
+        max-height: 24vw;
+        top: max(8px, env(safe-area-inset-top, 4px));
+        right: max(8px, env(safe-area-inset-right, 4px));
     }
     .color-picker-container {
-        left: 4px;
+        left: max(2px, env(safe-area-inset-left, 2px));
         padding: 4px 1px;
     }
     .color-picker {
@@ -238,19 +276,24 @@ body {
         height: 100px;
     }
     .shape-sidebar {
-        right: 0;
+        right: max(2px, env(safe-area-inset-right, 2px));
         padding: 4px 1px;
         gap: 8px;
+        max-height: 60vh;
     }
     .shape-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 1.2rem;
+        width: 32px;
+        height: 32px;
+        font-size: 1.1rem;
     }
     .capture-btn {
         width: 54px;
         height: 54px;
-        bottom: 12px;
+        bottom: max(8px, env(safe-area-inset-bottom, 6px));
+        min-width: 36px;
+        min-height: 36px;
+        max-width: 18vw;
+        max-height: 18vw;
     }
 }
 
