@@ -57,7 +57,13 @@ colorPicker.addEventListener('input', (e) => {
 // Camera access
 async function startCamera() {
     try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                width: { ideal: 1920 },
+                height: { ideal: 1080 },
+                facingMode: 'user' // Prefer front camera on mobile
+            }
+        });
         video.srcObject = stream;
     } catch (err) {
         alert('Camera access denied or not available.');
