@@ -35,6 +35,7 @@ body {
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
+    transform: scaleX(-1); /* Mirror the camera preview */
 }
 
 /* Neon Shape Display */
@@ -49,8 +50,8 @@ body {
 }
 .shape-display svg {
     display: block;
-    width: 120px;
-    height: 120px;
+    width: 180px;
+    height: 180px;
     color: #39ff14;
     stroke: white;
     stroke-width: 4px;
@@ -121,6 +122,47 @@ body {
     text-shadow: 0 0 8px #fff, 0 0 16px #ff00ea;
 }
 
+/* Color Picker */
+.color-picker-container {
+    position: absolute;
+    top: 50%;
+    left: 32px;
+    transform: translateY(-50%);
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 18px;
+    padding: 18px 8px;
+    box-shadow: 0 0 12px #0006;
+}
+.color-picker {
+    writing-mode: bt-lr; /* vertical orientation for some browsers */
+    -webkit-appearance: none;
+    appearance: none;
+    width: 36px;
+    height: 180px;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    cursor: pointer;
+    box-shadow: 0 0 8px #fff2;
+    margin: 0;
+    outline: none;
+}
+.color-picker::-webkit-color-swatch-wrapper {
+    padding: 0;
+    border-radius: 12px;
+}
+.color-picker::-webkit-color-swatch {
+    border: 2px solid #fff;
+    border-radius: 12px;
+}
+.color-picker::-moz-color-swatch {
+    border: 2px solid #fff;
+    border-radius: 12px;
+}
+
 /* Responsive Design */
 @media (max-width: 700px) {
     .camera-view {
@@ -140,12 +182,20 @@ body {
         font-size: 1.2rem;
     }
     .shape-display svg {
-        width: 80px;
-        height: 80px;
+        width: 120px;
+        height: 120px;
     }
     .capture-btn {
         width: 60px;
         height: 60px;
         bottom: 24px;
+    }
+    .color-picker-container {
+        left: 8px;
+        padding: 8px 2px;
+    }
+    .color-picker {
+        width: 24px;
+        height: 100px;
     }
 }
